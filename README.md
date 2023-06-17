@@ -44,10 +44,6 @@ First we need to build an interactions graph between proteins and ligands. First
         
         * edge_pos : Contains the information about intermolecular bond distance. Can be used as edge_feature.
 
-**2. Graph attention mechanism :- **
+**2. Model Architecture :-** 
 
-![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/caa10cf5-db1f-4ad7-bab9-00baa90952b2)
-
-Graph Neural Network part (GNNs) :- 
-
-     
+I am using a graph attention mechanism. This mechanism combines the attention mechanism used in NLP in the graph neural networks. Idea is to amplify the more important features and downgrade the less important features. For eg. In a sentence "Children are playing on the ground", word "ground" should pay more "attention" to the words like "Children" and "playing" than words like "the","on". Similarly in our case we want to give more "attention" to the important protein atom-ligand atom interactions.
