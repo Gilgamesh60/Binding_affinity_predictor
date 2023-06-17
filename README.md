@@ -28,4 +28,12 @@ Refined dataset has total 4057 folders with each folder representing a protein-l
 
 Graph neural networks(GNNs) have proved to be one of the most prominent models in the field of drug discovery. In this approach, I am planning to use Graph Attention Networks (GAT) for binding affinity prediction.
 
-  1. Interactions graph  :- 
+1. Interactions graph :-
+
+   ![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/a1604c0f-5eb7-4875-83c3-2874f5050657)
+
+First we need to build an interactions graph between proteins and ligands. First we will construct an individual protein and ligand graph from the given pdb and sdf files. This graph contains following information :
+        + node_feat : Features of graph nodes. Contains atomic number,degrees of freedom,valency and aromatic nature of all the atoms in the molecule. Used to create the initial feature matrix (X)
+        + num_of_nodes : Number of nodes in the molecule graph.
+        + edge_index : Contains the information about bond connections.Used for creating the adjacency matrix(A)
+        + edge_pos : Contains the information about intermolecular bond distance. Can be used as edge_feature.
