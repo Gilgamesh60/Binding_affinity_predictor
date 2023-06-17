@@ -17,6 +17,7 @@ So the aim of this project is to use deep learning techniques to improve the per
 
 
 
+
 ## Dataset :
 
 One of the main challenges in using deep learning for this problem is limited but high complex datasets. For this project, I am using the PDBBINDv2016 refined and general minus refined datasets.The refind dataset contains 4057 protein(target)-ligand(drug) complexes in total. This dataset was made by compiling the protein-ligand complexes with better quality out of the general dataset.General minus refined dataset consists of 9228 complexes. Both of them are similar in their structure. 
@@ -24,7 +25,7 @@ Refined dataset has total 4057 folders with each folder representing a protein-l
 
 
 
-## Method :
+## Approach :
 
 Graph neural networks(GNNs) have proved to be one of the most prominent models in the field of drug discovery. In this approach, I am planning to use Graph Attention Networks (GAT) for binding affinity prediction.
 
@@ -42,3 +43,11 @@ First we need to build an interactions graph between proteins and ligands. First
         * edge_index : Contains the information about bond connections.Used for creating the adjacency matrix(A)
         
         * edge_pos : Contains the information about intermolecular bond distance. Can be used as edge_feature.
+
+**2. Graph attention mechanism :- **
+
+![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/caa10cf5-db1f-4ad7-bab9-00baa90952b2)
+
+Graph Neural Network part (GNNs) :- 
+
+     
