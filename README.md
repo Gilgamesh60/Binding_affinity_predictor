@@ -13,6 +13,20 @@ i) Step 1 :- Clone the repo in google colab
 %cd "/content/Binding_affinity_predictor/"
 ```
 
+ii) Step 2 :- Download all the required packages.
+
+```python
+!pip install -r requirements.txt
+```
+
+iii)Step 3 :- Before this you need to have your protein and ligand structures stored in .pdb and .sdf file format respectively. After that run this code
+
+```python
+
+!python3 run.py
+        ----ligand_file "Put the ligand.sdf file path here"
+        ----protein_file "Put the protein.pdb file path here"
+```
 
 ## Introduction :
 
