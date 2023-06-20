@@ -2,7 +2,7 @@
 
 
 
-##Usage 
+## Usage 
 
 The repo is developed in such a way that you can use it for predicting DTI for your own complex. So you can use this repo commercially. You just need to follow these 3 simple steps.
 
