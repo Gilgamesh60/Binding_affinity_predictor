@@ -71,9 +71,7 @@ Structure of the final protein-ligand interaction graph is  :
 
 I am using a graph attention mechanism. This mechanism combines the attention mechanism used in NLP in the graph neural networks. Idea is to amplify the more important features and downgrade the less important features. For eg. In a sentence "Children are playing on the ground", word "ground" should pay more "attention" to the words like "Children" and "playing" than words like "the","on". Similarly in our case we want to give more "attention" to the important protein atom-ligand atom interactions.
 
-Input: The input of our graph attention model is the set of node features: $\mathbf{X_{\text{in}}} = \{\mathbf{x_1}, \dots, \mathbf{x_N}\}$ with $\mathbf{x_i} \in \mathbb{R}^F$ ($F$ is the number of features, $N$ is the number of nodes)
-
-and adjacency matrix **A** whick keep tracks of the edge features . 
+Input: The input of our graph attention model is the set of node features: $\mathbf{X_{\text{in}}} = \{\mathbf{x_1}, \dots, \mathbf{x_N}\}$ with $\mathbf{x_i} \in \mathbb{R}^F$ ($F$ is the number of features, $N$ is the number of nodes) and adjacency matrix **A** which keeps tracks of the edge coordinates. 
 
 Each node feature is transformed by using a learable weight matrix $W \in \mathbb{R}^{F \times F}$:  $$\mathbf{x_i} = W\mathbf{x_i}$$
 
