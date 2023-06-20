@@ -30,7 +30,9 @@ iii)Step 3 :- Before this you need to have your protein and ligand structures st
 
 ## Introduction :
 
- Accurate prediction of drug target interactions(DTI) is one of the most crucial steps in the early phase of new drug discovery. However experimentally, this step is extremely expensive and time consuming. The following table gives a general scale of cost and time required for discovering a new drug:
+This project is an effort to incorporate machine learning in my chemical engineering domain.
+
+Accurate prediction of drug target interactions(DTI) is one of the most crucial steps in the early phase of new drug discovery. However experimentally this step is extremely expensive and time consuming. The following table gives a general scale of cost and time required for discovering a new drug:
 
 
 
@@ -38,10 +40,10 @@ iii)Step 3 :- Before this you need to have your protein and ligand structures st
  ![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/2af77296-32a4-4056-9409-0e17a3916139)
 
 
-Binding affinity is one of the most important measures for drug-target interaction and can help us design drugs that selectively binds to their target. 
-One of the most popular computational methods for binding affinity prediction is molecular docking. It greatly reduces the computational costs and gives predictions with good accuracy. Unfortunately, this accuracy is still not sufficient to be practically used for drug discovery.There is also a prerequisite of already knowing the location of active sites. 
+Binding affinity is one of the most important measures for drug-target interaction and can help us design drugs that selectively binds to a specific target. 
+One of the most popular computational methods for binding affinity prediction is molecular docking. It greatly reduces the costs and gives predictions with good accuracy. Unfortunately, this accuracy is still not sufficient to be practically used for drug discovery.There is also a prerequisite of already knowing the location of active sites. 
 
-So the aim of this project is to use deep learning techniques to improve the performance of DTI calculations and try to provide an alternative to conventional methods like molecular docking and experimentaion.
+So the aim of this project is to use deep learning techniques to improve the performance of DTI methods and try to provide an alternative to conventional methods like molecular docking and experimentaion.
 
 The model implemented here is completely based on the method mentioned in the paper [Predicting drug-target interaction using 3D structure-embedded graph representations from graph neural networks](https://pubs.acs.org/doi/pdf/10.1021/acs.jcim.9b00387)
 
@@ -100,13 +102,10 @@ Structure of the final protein-ligand interaction graph is  :
 
 
 
-
-
-
  
 **3. Model Architecture :-** 
 
-I am using a graph attention mechanism. This mechanism combines the attention mechanism used in NLP in the graph neural networks. Idea is to amplify the more important features and downgrade the less important features. For eg. In a sentence "Children are playing on the ground", word "ground" should pay more "attention" to the words like "Children" and "playing" than words like "the","on". Similarly in our case we want to give more "attention" to the important protein atom-ligand atom interactions. The attention mechanism is based on the legendary research paper ["Attention is all you need"](https://arxiv.org/abs/1706.03762). Please check it out if you are interested.
+I am using a graph attention mechanism. This mechanism combines the attention mechanism used in NLP in the graph neural networks. Idea is to amplify the more important features and downgrade the less important features. For eg. In a sentence "Children are playing on the ground", word "ground" should pay more "attention" to the words like "Children" and "playing" than words like "the","on". Similarly in our case we want to give more "attention" to the important protein-ligand intermolecular interactions. The attention mechanism is based on the legendary research paper ["Attention is all you need"](https://arxiv.org/abs/1706.03762). Please check it out if you are interested.
 
 Input: The input of our graph attention model is the set of node features: $\mathbf{X_{\text{in}}} = \{\mathbf{x_1}, \dots, \mathbf{x_N}\}$ with $\mathbf{x_i} \in \mathbb{R}^F$ ($F$ is the number of features, $N$ is the number of nodes) and adjacency matrix **A** which keeps tracks of the edge coordinates. 
 
