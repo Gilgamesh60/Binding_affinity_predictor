@@ -142,11 +142,11 @@ These are all the results obtained from visualization of dataset and model perfo
 ![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/816240d8-d7f8-4313-bf69-40be1a3b7369)
 
 
-### iv) Different types of atoms in a random protein sample :
+### iv) Different types of atoms in a random ligand sample :
 
 ![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/24cd3984-2937-458c-ac86-e6c5326f15a3)
 
-### v) Atom type wise charge distribution in the protein sample
+### v) Atom type wise charge distribution in the ligand sample
 
 ![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/623a3ba4-0d96-46d5-92f1-9d8f375aba32)
 
