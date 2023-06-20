@@ -131,22 +131,22 @@ Source code : [src](https://github.com/Gilgamesh60/Binding_affinity_predictor/bl
 
 These are all the results obtained from visualization of dataset and model performance testing:
 
-### Random protein sample structure :
+### i) Random protein sample structure :
 ![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/c8967515-8d4e-48b5-9d7d-2882b25ccef1)
 
-### Protein binding pocket structure :
+### ii) Protein binding pocket structure :
 ![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/5c554b38-cda0-43a2-b123-85d127638952)
 
-### Random Ligand sample structure :
+### iii) Random Ligand sample structure :
 
 ![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/816240d8-d7f8-4313-bf69-40be1a3b7369)
 
 
-### Different types of atoms in a random protein sample :
+### iv) Different types of atoms in a random protein sample :
 
 ![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/24cd3984-2937-458c-ac86-e6c5326f15a3)
 
-### Atom type wise charge distribution in the protein sample
+### v) Atom type wise charge distribution in the protein sample
 
 ![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/623a3ba4-0d96-46d5-92f1-9d8f375aba32)
 
