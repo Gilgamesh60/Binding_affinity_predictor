@@ -8,12 +8,10 @@ The repo is developed in such a way that you can use it for predicting DTI for y
 
 i) Step 1 :- Clone the repo in google colab
 
-````
-````
+```python
 !git clone "https://github.com/Gilgamesh60/Binding_affinity_predictor/"
 %cd "/content/Binding_affinity_predictor/"
-````
-````
+```
 
 
 ## Introduction :
