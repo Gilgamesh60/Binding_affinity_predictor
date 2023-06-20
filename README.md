@@ -138,7 +138,9 @@ These are all the results obtained from visualization of dataset and model perfo
 ![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/5c554b38-cda0-43a2-b123-85d127638952)
 
 ### Random Ligand sample structure :
-![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/ba6958b7-66b0-4710-9eeb-a3bcd3d697e5)
+
+![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/816240d8-d7f8-4313-bf69-40be1a3b7369)
+
 
 ### Different types of atoms in a random protein sample :
 
