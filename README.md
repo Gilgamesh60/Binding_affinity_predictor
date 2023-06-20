@@ -34,15 +34,30 @@ Graph neural networks(GNNs) have proved to be one of the most prominent models i
 ![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/5cac35f6-4a36-4d1c-86a8-d366a37daa51)
 
 
-First we need to build an interactions graph between proteins and ligands. First we will construct an individual protein and ligand graph from the given pdb and sdf files. This graph contains following information :
+Building a protein-ligand interaction graph given their pdb and sdf files is probably the first and most important step for our project. The 3D atomic coordinates of molecules contain full structural information. For effective representation,molecular graphs in which atoms and chemical bonds correspond to nodes and edges respectively can be utilized for proteins and ligands. To accurately predict the binding affinity of protein-ligand complex,it is important to accurately take into account various types of intermolecular interactions. The paper that I am following, proposes a novel approach that directly incorporates the 3D structural information on a protein-ligand binding pose.
+There are 3 main forces acting between protein and ligand - covalent,intermolecular vanderwaal and electrostatic. Here for the sake of simplicity, I am only considering the covalent and intermolecular forces. Vanderwaal forces between atoms **i** and **j** depend inversely on the distance between those two atoms. As described in a paper, we will use a simple normal function such that it decreases with increase in distance. The function parameters are set in such a way that it becomes **0** if **distance > 5 Angstrom**.
 
-        * node_feat : Features of graph nodes.Contains atomic number,degrees of freedom,valency and aromatic nature of all the atoms in the molecule. Used to create the initial feature matrix (X)
+
+**2. Graph construction :-**
+
+In our case, graph can be defined as **G = (V, E ,A)**. V is the set of nodes. E is a set of edges. A is the adjacency matrix. I am modelling the adjacency matrix exactly like described in the paper.
+
+![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/61403248-3ef1-474c-86be-9e47650896bb)
+
+
+![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/5e6f49c3-c2d6-4dcb-a67f-74c220c43f6a)
+
+Structure of the final protein-ligand interaction graph is  :
+
+        * node_feat : Features of graph nodes.Contains atomic number,degrees of freedom,valency and aromatic nature of all the atoms in the molecule. Used to create the initial feature matrix (X).
         
-        * num_of_nodes : Number of nodes in the molecule graph.
+        * num_of_nodes : Number of nodes in the graph. 
         
-        * edge_index : Contains the information about bond connections.Used for creating the adjacency matrix(A)
+        * edge_index1 : Used for creating the adjacency matrix(A).Contains the information about the covalent connections.
         
-        * edge_pos : Contains the information about intermolecular bond distance. Can be used as edge_feature.
+        *edge_index2 : Used for creating the adjacency matrix(A) .Contains the information about the intermolecular vanderwaal connections.
+        
+        * edge_weight : Contains the Vanderwaal bond strength. Used for creating the edge feature matrix (E)
 
 **2. Model Architecture :-** 
 
