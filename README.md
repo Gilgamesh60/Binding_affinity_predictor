@@ -43,12 +43,16 @@ One of the most popular computational methods for binding affinity prediction is
 
 So the aim of this project is to use deep learning techniques to improve the performance of DTI calculations and try to provide an alternative to conventional methods like molecular docking and experimentaion.
 
-The model implemented here completely based on the method mentioned in the paper [Predicting drug-target interaction using 3D structure-embedded graph representations from graph neural networks](https://pubs.acs.org/doi/pdf/10.1021/acs.jcim.9b00387)
+The model implemented here is completely based on the method mentioned in the paper [Predicting drug-target interaction using 3D structure-embedded graph representations from graph neural networks](https://pubs.acs.org/doi/pdf/10.1021/acs.jcim.9b00387)
 
 ## Dataset :
 
 One of the main challenges in using deep learning for this problem is limited but high complex datasets. For this project, I am using the PDBBINDv2016 refined and general minus refined datasets.The refind dataset contains 4057 protein(target)-ligand(drug) complexes in total. This dataset was made by compiling the protein-ligand complexes with better quality out of the general dataset.General minus refined dataset consists of 9228 complexes. Both of them are similar in their structure. 
 Refined dataset has total 4057 folders with each folder representing a protein-ligand complex. Protein structure is stored in a PDB file format. Ligand structure is stored in a SDF or MOL2 file format. Index folder summarizes the basic information about the protein-ligand complexes including the binding affinity of complexes.
+
+Link for the dataset download : [PDBBINDv2016 refined database](https://drive.google.com/drive/folders/1s3i9rIPzQAD2OqEkE4qwVVPsuc7UT0Ol?usp=sharing)
+
+Link for visualization of dataset : [Dataset visualization]()
 
 
 
