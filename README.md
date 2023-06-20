@@ -1,5 +1,21 @@
 # Binding_affinity_prediction
 
+
+
+##Usage 
+
+The repo is developed in such a way that you can use it for predicting DTI for your own complex. So you can use this repo commercially. You just need to follow these 3 simple steps.
+
+i) Step 1 :- Clone the repo in google colab
+
+````
+````
+!git clone "https://github.com/Gilgamesh60/Binding_affinity_predictor/"
+%cd "/content/Binding_affinity_predictor/"
+````
+````
+
+
 ## Introduction :
 
  Accurate prediction of drug target interactions(DTI) is one of the most crucial steps in the early phase of new drug discovery. However experimentally, this step is extremely expensive and time consuming. The following table gives a general scale of cost and time required for discovering a new drug:
@@ -94,3 +110,9 @@ $$\hat{\mathbf{x_i}} = \sum_{j \in N(i)} a_{ij} \mathbf{x_j}$$
 Here I am trying to do a graph level prediction, so we need to compile aggregated features from all nodes. Here I am using a simple minimum-mean pooling to concatenate all features.
 
 As mentioned in the paper, I am first calculating the prediction using the primary adjacency matrix . The output of this is x1. Then calculate using secondary adjacency matrix. The output of this is x2.The final output for a node feature is just simply **x2 - x1**. By doing this we let our model learn the differences between the individual structures and the combined complex structure.
+
+
+
+
+##Results : 
+
