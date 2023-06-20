@@ -48,7 +48,7 @@ The model implemented here is completely based on the method mentioned in the pa
 ## Dataset :
 
 One of the main challenges in using deep learning for this problem is limited but high complex datasets. For this project, I am using the PDBBINDv2016 refined and general minus refined datasets.The refind dataset contains 4057 protein(target)-ligand(drug) complexes in total. This dataset was made by compiling the protein-ligand complexes with better quality out of the general dataset.General minus refined dataset consists of 9228 complexes. Both of them are similar in their structure. 
-Refined dataset has total 4057 folders with each folder representing a protein-ligand complex. Protein structure is stored in a PDB file format. Ligand structure is stored in a SDF or MOL2 file format. Index folder summarizes the basic information about the protein-ligand complexes including the binding affinity of complexes.
+Refined dataset has total 4057 folders with each folder representing a protein-ligand complex. Protein structure is stored in a PDB file format. Ligand structure is stored in a SDF and MOL2 file format. Index folder summarizes the basic information about the protein-ligand complexes including the binding affinity of complexes.
 
 Link for the dataset download : [PDBBINDv2016 refined database](https://drive.google.com/drive/folders/1s3i9rIPzQAD2OqEkE4qwVVPsuc7UT0Ol?usp=sharing)
 
@@ -126,8 +126,7 @@ Here I am trying to do a graph level prediction, so we need to compile aggregate
 
 As mentioned in the paper, I am first calculating the prediction using the primary adjacency matrix . The output of this is x1. Then calculate using secondary adjacency matrix. The output of this is x2.The final output for a node feature is just simply **x2 - x1**. By doing this we let our model learn the differences between the individual structures and the combined complex structure.
 
-
-
+Source code : [src](https://github.com/Gilgamesh60/Binding_affinity_predictor/blob/main/src)
 
 ##  Results : 
 
