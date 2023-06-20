@@ -39,6 +39,8 @@ There are 3 main forces acting between protein and ligand - covalent,intermolecu
 
 
 
+
+
 **2. Graph construction :-**
 
 In our case, graph can be defined as **G = (V, E ,A1 , A2)**. V is the set of nodes. E is a set of edges. A1 is the primary adjacency matrix and A2 is secondary adjaceny matrix. I am modelling the adjacency matrix exactly like described in the paper.
@@ -66,7 +68,11 @@ Structure of the final protein-ligand interaction graph is  :
 
 
 
-        
+
+
+
+
+ 
 **3. Model Architecture :-** 
 
 I am using a graph attention mechanism. This mechanism combines the attention mechanism used in NLP in the graph neural networks. Idea is to amplify the more important features and downgrade the less important features. For eg. In a sentence "Children are playing on the ground", word "ground" should pay more "attention" to the words like "Children" and "playing" than words like "the","on". Similarly in our case we want to give more "attention" to the important protein atom-ligand atom interactions.
