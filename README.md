@@ -52,7 +52,7 @@ Refined dataset has total 4057 folders with each folder representing a protein-l
 
 Link for the dataset download : [PDBBINDv2016 refined database](https://drive.google.com/drive/folders/1s3i9rIPzQAD2OqEkE4qwVVPsuc7UT0Ol?usp=sharing)
 
-Link for visualization of dataset : [Dataset visualization]()
+Link for visualization of dataset : [Dataset visualization](https://github.com/Gilgamesh60/Binding_affinity_predictor/blob/main/visualize/dataset_visualization.ipynb)
 
 
 
