@@ -23,7 +23,7 @@ iii)Step 3 :- Before this you need to have your protein and ligand structures st
 
 ```python
 
-!python3 run.py
+!python run.py
         ----ligand_file "Put the ligand.sdf file path here"
         ----protein_file "Put the protein.pdb file path here"
 ```
