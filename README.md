@@ -38,14 +38,18 @@ Building a protein-ligand interaction graph given their pdb and sdf files is pro
 There are 3 main forces acting between protein and ligand - covalent,intermolecular vanderwaal and electrostatic. Here for the sake of simplicity, I am only considering the covalent and intermolecular forces. Vanderwaal forces between atoms **i** and **j** depend inversely on the distance between those two atoms. As described in a paper, we will use a simple normal function such that it decreases with increase in distance. The function parameters are set in such a way that it becomes **0** if **distance > 5 Angstrom**.
 
 
+
 **2. Graph construction :-**
 
-In our case, graph can be defined as **G = (V, E ,A)**. V is the set of nodes. E is a set of edges. A is the adjacency matrix. I am modelling the adjacency matrix exactly like described in the paper.
+In our case, graph can be defined as **G = (V, E ,A1 , A2)**. V is the set of nodes. E is a set of edges. A1 is the primary adjacency matrix and A2 is secondary adjaceny matrix. I am modelling the adjacency matrix exactly like described in the paper.
 
 ![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/61403248-3ef1-474c-86be-9e47650896bb)
 
 
 ![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/5e6f49c3-c2d6-4dcb-a67f-74c220c43f6a)
+
+
+Primary adjacency matrix(A1) just represents the intramolecular covalent bonds. Secondary adjacency matrix(A2) contains not only intramolecular covalent bonds but also the intermolecular vanderwaal bonds. 
 
 Structure of the final protein-ligand interaction graph is  :
 
@@ -53,28 +57,36 @@ Structure of the final protein-ligand interaction graph is  :
         
         * num_of_nodes : Number of nodes in the graph. 
         
-        * edge_index1 : Used for creating the adjacency matrix(A).Contains the information about the covalent connections.
+        * edge_index1 : Used for creating adjacency matrix - A1 and A2.Contains the information about the covalent connections.
         
-        *edge_index2 : Used for creating the adjacency matrix(A) .Contains the information about the intermolecular vanderwaal connections.
+        * edge_index2 : Used for creating adjacency matrix - A1 and A2 .Contains the information about the intermolecular vanderwaal connections.
         
-        * edge_weight : Contains the Vanderwaal bond strength. Used for creating the edge feature matrix (E)
+        * edge_weight : Contains the Vanderwaal bond strength calculated using intermolecular distance. Used for creating the secondary adjacency matrix - A2.
 
-**2. Model Architecture :-** 
+
+
+
+        
+**3. Model Architecture :-** 
 
 I am using a graph attention mechanism. This mechanism combines the attention mechanism used in NLP in the graph neural networks. Idea is to amplify the more important features and downgrade the less important features. For eg. In a sentence "Children are playing on the ground", word "ground" should pay more "attention" to the words like "Children" and "playing" than words like "the","on". Similarly in our case we want to give more "attention" to the important protein atom-ligand atom interactions.
 
-Input: node features $\mathbf{X_{\text{in}}} = \{\mathbf{x_1}, \dots, \mathbf{x_N}\}$ with $\mathbf{x_i} \in \mathbb{R}^F$ ($F$ is the number of features, $N$ is the number of nodes)
+Input: The input of our graph attention model is the set of node features: $\mathbf{X_{\text{in}}} = \{\mathbf{x_1}, \dots, \mathbf{x_N}\}$ with $\mathbf{x_i} \in \mathbb{R}^F$ ($F$ is the number of features, $N$ is the number of nodes)
 
-Transform each node by a learable weight matrix $W \in \mathbb{R}^{F \times F}$:  $$\mathbf{x_i} = W\mathbf{x_i}$$
+and adjacency matrix **A** whick keep tracks of the edge features . 
+
+Each node feature is transformed by using a learable weight matrix $W \in \mathbb{R}^{F \times F}$:  $$\mathbf{x_i} = W\mathbf{x_i}$$
 
 Compute attention coefficient (the importand of $i^{th}$ node feature to $j^{th}$ node feature):  $$e_{ij} = e_{ji} = \mathbf{x}^{T}_i \mathbf{E} \mathbf{x}_j + \mathbf{x}^{T}_j \mathbf{E} \mathbf{x}_i$$
 
 with $\mathbf{E} \in \mathbb{R}^{F \times F}$ is a learnable matrix, only compute $e_{ij}$ if $\mathbf{A_{ij}} = \mathbf{A_{ji}} >0 $
 
-Normalize attention coefficient: 
+As mentioned in the original attention paper I will use a softmax function to normalize the attention coefficients.By doing this,all the coefficients of a node will be transformed in a way such that all coefficients sum up to 1: 
 $$a_{ij} = \frac{\exp(e_{ij})}{\sum_{j \in N(i)} \exp(e_{ij})} \mathbf{A_{ij}}$$
 
-Update: 
+Finally update: 
 $$\hat{\mathbf{x_i}} = \sum_{j \in N(i)} a_{ij} \mathbf{x_j}$$ 
 
+Here I am trying to do a graph level prediction, so we need to compile aggregated features from all nodes. Here I am using a simple minimum-mean pooling to concatenate all features.
 
+As mentioned in the paper, I am first calculating the prediction using the primary adjacency matrix . The output of this is x1. Then calculate using secondary adjacency matrix.The output is x2.The final output of a node is just simply **x2 - x1**. By doing this we let our model learn the differences between the individual structures and the combined complex structure.
