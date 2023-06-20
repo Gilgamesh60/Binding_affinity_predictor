@@ -129,5 +129,18 @@ Source code : [src](https://github.com/Gilgamesh60/Binding_affinity_predictor/bl
 
 ##  Results : 
 
-These are all the model results :
+These are all the results obtained from visualization of dataset and model performance testing:
+
+### Protein structure :
+![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/79c6362d-7415-4c49-b2cd-144475d4bc17)
+
+### Protein binding pocket structure :
+![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/5c554b38-cda0-43a2-b123-85d127638952)
+
+### Ligand structure :
+![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/dac37405-cc43-4046-bccb-99e4df3481e4)
+
+
+
+
 
