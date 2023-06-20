@@ -43,8 +43,7 @@ One of the most popular computational methods for binding affinity prediction is
 
 So the aim of this project is to use deep learning techniques to improve the performance of DTI calculations and try to provide an alternative to conventional methods like molecular docking and experimentaion.
 
-
-
+The model implemented here completely based on the method mentioned in the paper ![ Predicting drug-target interaction using 3D structure-embedded graph representations from graph neural networks](https://pubs.acs.org/doi/pdf/10.1021/acs.jcim.9b00387)
 
 ## Dataset :
 
@@ -126,5 +125,7 @@ As mentioned in the paper, I am first calculating the prediction using the prima
 
 
 
-##Results : 
+##  Results : 
+
+These are all the model results :
 
