@@ -53,6 +53,9 @@ iii)Step 3 :- Before this you need to have your protein and ligand structures st
 One of the main challenges in using deep learning for this problem is limited but high complex datasets. For this project, I am using the PDBBINDv2016 refined and general minus refined datasets.The refind dataset contains 4057 protein(target)-ligand(drug) complexes in total. This dataset was made by compiling the protein-ligand complexes with better quality out of the general dataset.General minus refined dataset consists of 9228 complexes. Both of them are similar in their structure. 
 Refined dataset has total 4057 folders with each folder representing a protein-ligand complex. Protein structure is stored in a PDB file format. Ligand structure is stored in a SDF and MOL2 file format. Index folder summarizes the basic information about the protein-ligand complexes including the binding affinity of complexes.
 
+How we calculate the binding affinity is also very interesting. Most commonly the binding affinity for such complexes is calculated as $-log(K_i/K_d)$ where $K_i$ is the inhibition constant. This constant basically represents the concentration of ligand required to occupy 50% of the receptor sites when no competing ligand is present. Smaller the value of $K_i$,
+greater is the binding affinity.$K_d$ is the equilibrium dissociation constant and it can be used as a measure of binding affinity calculation because it tells you how tightly a ligand binds to a protein. Basically it's the equilibrium constant for the reaction : L + P ⇄  LP . Higher the value of $K_d$,greater is the binding affinity. 
+
 Link for the dataset download : [PDBBINDv2016 refined database](https://drive.google.com/drive/folders/1s3i9rIPzQAD2OqEkE4qwVVPsuc7UT0Ol?usp=sharing)
 
 Link for visualization of dataset : [Dataset visualization](https://github.com/Gilgamesh60/Binding_affinity_predictor/blob/main/visualize/dataset_visualization.ipynb)
@@ -174,9 +177,8 @@ Source code : [src](https://github.com/Gilgamesh60/Binding_affinity_predictor/bl
 ## Future works :
 
 There is lot I want to do for this project :
-
-i) I want to launch a webapp that can be used to predict binding affinity for any protein-ligand pair.
-ii) I want to expand this repo to other protein-ligand datasets like KIBA,DAVIS and DUD-E.
-iii) One of the main problems here is the fact that the binding affinity is calculated under fixed circumstances. In the PDBBIND dataset, binding affinity is calculated under normal conditions (Solvent=Water, T=293 K, P=101.3 kPa, pH=7.4). But affinity is heavily dependent on the solvent, pH, temperature, dissolved salts, etc. So in order to use this model commercially, it is important to integrate such parameters in the model too. So I plan to look into this problem too.
+1. I want to launch a webapp that can be used to predict binding affinity for any protein-ligand pair
+2. I want to expand this repo to other protein-ligand datasets like KIBA,DAVIS and DUD-E.
+3. One of the main problems here is the fact that the binding affinity is calculated under fixed circumstances. In the PDBBIND dataset, binding affinity is calculated under normal conditions (Solvent=Water, T=293 K, P=101.3 kPa, pH=7.4). But affinity is heavily dependent on the solvent, pH, temperature, dissolved salts, etc. So in order to use this model commercially, it is important to integrate such parameters in the model too. So I plan to look into this problem too.
 
 
