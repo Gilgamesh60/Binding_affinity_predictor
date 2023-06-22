@@ -50,16 +50,15 @@ iii)Step 3 :- Before this you need to have your protein and ligand structures st
 
 ## Dataset :
 
-One of the main challenges in using deep learning for this problem is limited but high complex datasets. For this project, I am using the PDBBINDv2016 refined and general minus refined datasets.The refind dataset contains 4057 protein(target)-ligand(drug) complexes in total. This dataset was made by compiling the protein-ligand complexes with better quality out of the general dataset.General minus refined dataset consists of 9228 complexes. Both of them are similar in their structure. 
-Refined dataset has total 4057 folders with each folder representing a protein-ligand complex. Protein structure is stored in a PDB file format. Ligand structure is stored in a SDF and MOL2 file format. Index folder summarizes the basic information about the protein-ligand complexes including the binding affinity of complexes.
+One of the main challenges in using deep learning for this problem is - limited but highly complex datasets. For this project, I am using the PDBBINDv2016 "refined" and "general minus refined" datasets.The refind dataset contains 4057 protein(target)-ligand(drug) complexes in total. This dataset was made by compiling the protein-ligand complexes with better quality out of the general dataset.General minus refined dataset consists of 9228 complexes. Both of these datasets are similar in their structure. 
+Refined dataset has total 4057 folders with each folder representing a protein-ligand complex. Protein structure is stored in a PDB file format. Ligand structure is stored in a SDF and MOL2 file format.There is also a pdb file which stores the structure of protein pocket. Index folder summarizes the basic information about the protein-ligand complexes including the binding affinity of complexes.
 
-How we calculate the binding affinity is also very interesting. Most commonly the binding affinity for such complexes is calculated as $-log(K_i/K_d)$ where $K_i$ is the inhibition constant. This constant basically represents the concentration of ligand required to occupy 50% of the receptor sites when no competing ligand is present. Smaller the value of $K_i$,
-greater is the binding affinity. $K_d$ is the equilibrium dissociation constant and it can be used as a measure of binding affinity calculation because it tells you how tightly a ligand binds to a protein. Basically it's the equilibrium constant for the reaction : L + P ⇄  LP . Higher the value of $K_d$, greater is the binding affinity. 
+How the dataset calculates binding affinity is also very interesting. Most commonly the binding affinity for such complexes is calculated as $-log(K_i/K_a)$ where $K_i$ is the inhibition constant which represents the concentration of ligand required to occupy 50% of the receptor sites when no competing ligand is present. Smaller the value of $K_i$,
+greater is the binding affinity. $K_a$ is the equilibrium association constant and it represents how tightly a ligand binds to a protein. Basically it's the equilibrium constant for the reaction : L + P ⇄  LP . Higher the value of $K_a$, greater is the binding affinity. 
 
 Link for the dataset download : [PDBBINDv2016 refined database](https://drive.google.com/drive/folders/1s3i9rIPzQAD2OqEkE4qwVVPsuc7UT0Ol?usp=sharing)
 
 Link for visualization of dataset : [Dataset visualization](https://github.com/Gilgamesh60/Binding_affinity_predictor/blob/main/visualize/dataset_visualization.ipynb)
-
 
 
 ## Approach :
@@ -136,7 +135,9 @@ $$\hat{\mathbf{x_i}} = \sum_{j \in N(i)} a_{ij} \mathbf{x_j}$$
 In this project I am trying to do a graph level prediction, so we need to compile features from all nodes so that we can feed that output to a neural network. Here I am using a simple global add pooling to concatenate all features.Other intelligent pooling methods might give better results. 
 As mentioned in the paper, I am first calculating the prediction using the primary adjacency matrix . The output of this is x1. Then calculate using secondary adjacency matrix. The output of this is x2.The final output for a node feature is just simply **x2 - x1**. The aim is to let our model learn the differences between the individual structures and the combined complex structure.
 
-Source code : [src](https://github.com/Gilgamesh60/Binding_affinity_predictor/blob/main/src)
+Link for source code : [Source](https://github.com/Gilgamesh60/Binding_affinity_predictor/blob/main/src)
+
+
 
 ## Dataset visualization results : 
 
