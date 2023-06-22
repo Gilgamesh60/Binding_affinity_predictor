@@ -2,6 +2,27 @@
 
 
 
+## Introduction :
+
+This project is an effort to incorporate machine learning in my chemical engineering domain.
+
+Accurate prediction of drug target interactions(DTI) is one of the most crucial steps in the early phase of new drug discovery. However experimentally this step is extremely expensive and time consuming. The following table gives a general scale of cost and time required for discovering a new drug:
+
+
+
+
+ ![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/2af77296-32a4-4056-9409-0e17a3916139)
+
+
+Binding affinity is one of the most important measures for drug-target interaction and can help us design drugs that selectively binds to a specific target. 
+One of the most popular computational methods for binding affinity prediction is molecular docking. It greatly reduces the costs and gives predictions with good accuracy. Unfortunately, this accuracy is still not sufficient to be practically used for drug discovery.There is also a prerequisite of already knowing the location of active sites. 
+
+So the aim of this project is to use deep learning techniques to improve the performance of DTI methods and try to provide an alternative to conventional methods like molecular docking and experimentaion.
+
+The model implemented here is completely based on the method mentioned in the paper [Predicting drug-target interaction using 3D structure-embedded graph representations from graph neural networks](https://pubs.acs.org/doi/pdf/10.1021/acs.jcim.9b00387)
+
+
+
 ## Usage 
 
 The repo is developed in such a way that you can use it for predicting DTI for your own complex. So you can use this repo commercially. You just need to follow these 3 simple steps.
@@ -26,25 +47,6 @@ iii)Step 3 :- Before this you need to have your protein and ligand structures st
 !python run.py  -l "Put the ligand.sdf file path here"
         -p "Put the protein.pdb file path here"
 ```
-
-## Introduction :
-
-This project is an effort to incorporate machine learning in my chemical engineering domain.
-
-Accurate prediction of drug target interactions(DTI) is one of the most crucial steps in the early phase of new drug discovery. However experimentally this step is extremely expensive and time consuming. The following table gives a general scale of cost and time required for discovering a new drug:
-
-
-
-
- ![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/2af77296-32a4-4056-9409-0e17a3916139)
-
-
-Binding affinity is one of the most important measures for drug-target interaction and can help us design drugs that selectively binds to a specific target. 
-One of the most popular computational methods for binding affinity prediction is molecular docking. It greatly reduces the costs and gives predictions with good accuracy. Unfortunately, this accuracy is still not sufficient to be practically used for drug discovery.There is also a prerequisite of already knowing the location of active sites. 
-
-So the aim of this project is to use deep learning techniques to improve the performance of DTI methods and try to provide an alternative to conventional methods like molecular docking and experimentaion.
-
-The model implemented here is completely based on the method mentioned in the paper [Predicting drug-target interaction using 3D structure-embedded graph representations from graph neural networks](https://pubs.acs.org/doi/pdf/10.1021/acs.jcim.9b00387)
 
 ## Dataset :
 
