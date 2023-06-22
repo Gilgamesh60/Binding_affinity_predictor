@@ -33,6 +33,8 @@ class protein_ligand_dataset(InMemoryDataset):
             # protein structure in pdb file
             protein_file_path = os.path.join(self.data_dir, complex_folder_name, "{}_protein.pdb".format(complex_id))        
             graph = interactions_graph(ligand_structure_file_path, protein_structure_file_path)
+            if graph is None:
+                continue
             binding_affinity = map_complex_to_affinity[pdb_id]
             data = Data()
             data.__num_nodes__ = graph["num_nodes"]
