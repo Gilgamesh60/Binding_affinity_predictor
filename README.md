@@ -112,7 +112,7 @@ Before starting the explaination on how attention is integrated with GNNs, first
 
 Fundamental idea of GNNs is to learn a suitable representation of graph data for neural networks. Given all the information about graphs like node features,node connections stored in adjacency matrix, a GNNs outputs something new called as node embedding for each of the nodes. These node embeddings contain the structural and feature information about the other nodes in the graph. So each node is aware of the context of other nodes in the graph.This is achieved by message passing layers which are the main building blocks of GNNs
 
-In general,the formula for messaging passing can be represented as - $\(h_u^k+1) = (UPDATE)^k((h_u^k),(AGGREGATE^k({h_v^k,\forall v \in N(u)})))
+In general,the formula for messaging passing can be represented as - $\(h_u^k+1) = (UPDATE)^k((h_u^k),(AGGREGATE^k({h_v^k,\forall v \in N(u)})))$
 
 Input: The input of our graph attention model is the set of node features: $\mathbf{X_{\text{in}}} = \{\mathbf{x_1}, \dots, \mathbf{x_N}\}$ with $\mathbf{x_i} \in \mathbb{R}^F$ ($F$ is the number of features, $N$ is the number of nodes) and adjacency matrix **A** which keeps tracks of the edge coordinates. 
 
