@@ -1,3 +1,3 @@
 ## Results 
 
-If you want to know more about the dataset used - PDBBINDv2016. I have tried to visualize the propertied of a single protein-ligand complex from this dataset.
+In this folder, you can take a look at all the data we have available on a single protein-ligand complex from PDBBINDv2016 dataset. 
