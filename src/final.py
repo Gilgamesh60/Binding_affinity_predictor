@@ -65,7 +65,7 @@ best_model = None
 best_val_loss = np.inf
 train_losses = val_losses = []
 for epoch in range(1,config.num_epochs+1):
-  print("---- Epoch {} ----".format(epoch))
+  print("Epoch {} ".format(epoch))
 
   print("Training...")
   train_loss = train(train_loader)
@@ -83,11 +83,11 @@ for epoch in range(1,config.num_epochs+1):
   else:
     current_patience -= 1
 
-  print("Epoch {} || ".format(epoch),
-        "Train Loss: {} || ".format(train_loss),
-        "Val Loss: {} || ".format(val_loss))
+  print("Epoch {} ".format(epoch),
+        "Train Loss: {}".format(train_loss),
+        "Val Loss:".format(val_loss))
         
   if epoch%5==0:
-    torch.save(best_model.state_dict(), "/content/drive/MyDrive/exp1/best_model1.pth")
-    torch.save(model.state_dict(), "/content/drive/MyDrive/exp1/model1.pth")
-    torch.save(optimizer.state_dict(), "/content/drive/MyDrive/exp1/optimizer1.pth")
+    torch.save(best_model.state_dict(), "/content/drive/MyDrive/exp1/best_model.pth")
+    torch.save(model.state_dict(), "/content/drive/MyDrive/exp1/model.pth")
+    torch.save(optimizer.state_dict(), "/content/drive/MyDrive/exp1/optimizer.pth")
