@@ -54,7 +54,7 @@ One of the main challenges in using deep learning for this problem is limited bu
 Refined dataset has total 4057 folders with each folder representing a protein-ligand complex. Protein structure is stored in a PDB file format. Ligand structure is stored in a SDF and MOL2 file format. Index folder summarizes the basic information about the protein-ligand complexes including the binding affinity of complexes.
 
 How we calculate the binding affinity is also very interesting. Most commonly the binding affinity for such complexes is calculated as $-log(K_i/K_d)$ where $K_i$ is the inhibition constant. This constant basically represents the concentration of ligand required to occupy 50% of the receptor sites when no competing ligand is present. Smaller the value of $K_i$,
-greater is the binding affinity.$K_d$ is the equilibrium dissociation constant and it can be used as a measure of binding affinity calculation because it tells you how tightly a ligand binds to a protein. Basically it's the equilibrium constant for the reaction : L + P ⇄  LP . Higher the value of $K_d$,greater is the binding affinity. 
+greater is the binding affinity.$K_d$ is the equilibrium dissociation constant and it can be used as a measure of binding affinity calculation because it tells you how tightly a ligand binds to a protein. Basically it's the equilibrium constant for the reaction : L + P ⇄  LP . Higher the value of $K_d$, greater is the binding affinity. 
 
 Link for the dataset download : [PDBBINDv2016 refined database](https://drive.google.com/drive/folders/1s3i9rIPzQAD2OqEkE4qwVVPsuc7UT0Ol?usp=sharing)
 
