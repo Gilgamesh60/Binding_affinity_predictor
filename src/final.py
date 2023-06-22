@@ -1,6 +1,7 @@
 from torch.utils.data.dataloader import RandomSampler
 from data import *
 from configure import *
+from model import *
 config = Config()
 device= config.device
 patience = config.patience
