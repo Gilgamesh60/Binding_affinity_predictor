@@ -1,70 +1,47 @@
-import torch.nn as nn
-import torch.optim as optim
-import torch.nn.functional as F
-
-from torch.nn import (
-    ModuleList,
-    Linear,
-)
-from torch.nn.functional import dropout, relu
-
-from torch_geometric.data import (
-    Data,
-    InMemoryDataset,
-    download_url,
-    extract_zip,
-    DataLoader,
-    NeighborSampler,
-)
-from torch_geometric.utils import (
-    coalesce,
-    to_networkx,
-    train_test_split_edges,
-    add_self_loops,
-    degree,
-)
-from torch_geometric.nn import (
-    GAT,
-    GATConv,
-    SAGEConv,
-    global_max_pool,
-    global_mean_pool,
-    MessagePassing,
-)
-
-import torch_geometric.transforms as T
-from torch_geometric.logging import init_wandb, log
-from torch_geometric.loader import NeighborLoader, DataLoader
 import torch
-from torch.nn import Linear
-import torch.nn.functional as F
-from torch_geometric.nn import GCNConv, TopKPooling, global_mean_pool
-from torch_geometric.nn import global_mean_pool as gap, global_max_pool as gmp
-embedding_size = 32
-num_features = 5
-hid_channels = 32
-out_channels = 32
-# Graph attention network
+from torch_geometric.nn.dense import Linear
+from torch_geometric.utils import add_self_loops, remove_self_loops
+from torch_geometric.nn.conv import GATConv 
+from torch.nn.functional import softmax, sigmoid, relu
+from torch.nn import Parameter, ModuleList, BatchNorm1d
+from torch.optim import Adam
+from torch.optim.lr_scheduler import StepLR
 class GAT(torch.nn.Module):
-    def __init__(self):
-        # Init parent
+    def __init__(self, in_channels, num_gnn_layers, num_linear_layers, linear_out_channels):
         super(GAT, self).__init__()
-        torch.manual_seed(42)
-        # GAT layers
-        self.convs = torch.nn.ModuleList()
-        self.convs.append(GATConv(num_features,embedding_size, heads=8, dropout=0.2))
-        self.convs.append(GATConv(embedding_size *8, hid_channels, heads=2, dropout=0.2))
-        self.convs.append(GATConv(hid_channels *2, out_channels, heads=1, dropout=0.2))
-        # Output layer
-        self.out = Linear(out_channels*2, 1)
+        self.in_channels = in_channels
 
-    def forward(self, x, edge_index, batch_index):
-        for i, conv in enumerate(self.convs):
-            x = conv(x, edge_index)
-            if i < len(self.convs) - 1:
-                x = F.tanh(x)
-        # Apply a final (linear) classifier.
-        x = torch.cat([gmp(x, batch_index),
-                            gap(x, batch_index)], dim=1)
-        out = self.out(x)
-        return out, x
+        self.num_gnn_layers = num_gnn_layers
+        self.attention_layers = ModuleList()
+        for layer_id in range(num_gnn_layers):
+            self.attention_layers.append(GATConv(in_channels, in_channels, True))
+        self.pooling_layer = global_add_pool
+
+        self.num_linear_layers = num_linear_layers
+        self.linear_layers = ModuleList()
+        for layer_id in range(num_linear_layers):
+            if layer_id == 0:
+                self.linear_layers.append(Linear(self.in_channels, linear_out_channels[0]))
+                continue
+
+            self.linear_layers.append(Linear(linear_out_channels[layer_id - 1], linear_out_channels[layer_id]))
+
+        self.out = Linear(linear_out_channels[-1], 1)
+
+    def forward(self, batched_data):
+        x, edge_index_1, edge_index_2, edge_weight = batched_data["x"], batched_data["edge_index_1"], batched_data["edge_index_2"], batched_data["edge_weight"]
+
+        for layer in self.attention_layers:
+            x_1 = layer(x_1, edge_index_1)
+            x_2 = layer(x_2, edge_index_2, edge_weight)
+
+        node_representation = x_2 - x_1
+        graph_representation = self.pooling_layer(node_representation, batched_data.batch)
+        
+        for layer in self.linear_layers:
+            graph_representation = layer(graph_representation)
+            graph_representation = relu(graph_representation)
+
+        binding_affinity = self.out(graph_representation)
+
+        return torch.nan_to_num(binding_affinity)
