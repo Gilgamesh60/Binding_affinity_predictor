@@ -101,7 +101,6 @@ Structure of the final protein-ligand interaction graph is  :
 
 
 
- 
 **3. Model Architecture :-** 
 
 I am using a graph attention mechanism. This mechanism combines the attention mechanism used in NLP in the graph neural networks. Idea is to amplify the more important features and downgrade the less important features. For eg. In a sentence "Children are playing on the ground", word "ground" should pay more "attention" to the words like "Children" and "playing" than words like "the" and "on". Similarly in our case we want to give more "attention" to the important protein-ligand intermolecular interactions. The attention mechanism is based on the legendary research paper [Attention is all you need](https://arxiv.org/abs/1706.03762). Please check it out if you are interested.
@@ -110,35 +109,33 @@ Before starting the explaination on how attention is integrated with GNNs, first
 
 Fundamental idea of GNNs is to learn a suitable representation of graph data for neural networks. Given all the information about graphs like node features,node connections stored in adjacency matrix, a GNNs outputs something new called as node embedding for each of the nodes. These node embeddings contain the structural and feature information about the other nodes in the graph. So each node is aware of the context of other nodes in the graph.This is achieved by message passing layers which are the main building blocks of GNNs
 
-In general,the formula for messaging passing can be represented as - $\h_u^k+1 = UPDATE^k(h_u^k,AGGREGATE^k({h_v^k,\forall v \in N(u)}))$
+In general,the formula for messaging passing can be represented as - 
+$$h_u^k+1 = UPDATE^k(h_u^k,AGGREGATE^k({h_v^k,\forall v \in N(u)}))$$
 The AGGREGATE function gathers all the structural and feature data from the other nodes in the graph. Then based on node embeddings and this aggregated information update function simply produces the new node embeddings. As evident by the formula,it is an iterative formula. Based on how you define your AGGREGATE and UPDATE functions, there are many varients of GNNs.
 Now this is where the attention mechanism comes into play.In graph attention networks,importance of the features of the neighbour state is considered for the aggregation. As a result the importance of the features of the neighbour state is used as a factor in AGGREGATE function.
 Before going into how exactly I plan to use this model for my project, I want to briefly go throught the architecture of graph attention networks. If you are interested please go through this [paper](https://arxiv.org/pdf/1710.10903.pdf).
 
 Input: The input of our graph attention model is the set of node features: $\mathbf{X_{\text{in}}} = \{\mathbf{x_1}, \dots, \mathbf{x_N}\}$ with $\mathbf{x_i} \in \mathbb{R}^F$ ($F$ is the number of features, $N$ is the number of nodes) and adjacency matrix **A** which keeps tracks of the edge coordinates. 
 
-The new node embeddings are obtained by multiplying the current node embeddings(initially that will be $X*A*$ where A is node feature matrix and A is the adacency matrix) by a    learable weight matrix $W \in \mathbb{R}^{F \times F}$:  $$\mathbf{x_i} = W\mathbf{x_i}$$
+The new node embeddings are obtained by multiplying the current node embeddings(initially $X*A*$ where A is node feature matrix and A is the adacency matrix) by a learnable weight matrix $W \in \mathbb{R}^{F \times F}$:  $$\mathbf{x_i} = W\mathbf{x_i}$$
 
-The basic idea is to learn how important node j's features are for node i. This is called as attention coefficient($e_{ij}$). 
-Compute attention coefficient (the importand of $i^{th}$ node feature to $j^{th}$ node feature):  $$e_{ij} = e_{ji} = \mathbf{x}^{T}_i \mathbf{E} \mathbf{x}_j + \mathbf{x}^{T}_j \mathbf{E} \mathbf{x}_i$$
+The basic idea is to learn how important node j's features are for node i which is called as attention coefficient($e_{ij}$). 
+In the paper, they have calculated attention coefficient as :  $$e_{ij} = e_{ji} = \mathbf{x}^{T}_i \mathbf{W} \mathbf{x}_j + \mathbf{x}^{T}_j \mathbf{W} \mathbf{x}_i$$
 
-with $\mathbf{E} \in \mathbb{R}^{F \times F}$ is a learnable matrix, only compute $e_{ij}$ if $\mathbf{A_{ij}} = \mathbf{A_{ji}} >0 $
+Here $\mathbf{W} \in \mathbb{R}^{F \times F}$ is a learnable matrix. We don't want our attention coefficient to be negate. So we will only compute $e_{ij}$ if $\mathbf{A_{ij}} = \mathbf{A_{ji}} >0 $
 
-As mentioned in the original attention paper I will use a softmax function to normalize the attention coefficients.By doing this,all the coefficients of a node will be transformed in a way such that all coefficients sum up to 1: 
+Finally as mentioned in the original attention paper I will use a softmax function to normalize the attention coefficients.By doing this,all the coefficients of a node will be transformed in such way that all coefficients will always sum up to 1: 
 $$a_{ij} = \frac{\exp(e_{ij})}{\sum_{j \in N(i)} \exp(e_{ij})} \mathbf{A_{ij}}$$
 
-Finally update: 
+Aggregation is now complete.Now we just need to update: 
 $$\hat{\mathbf{x_i}} = \sum_{j \in N(i)} a_{ij} \mathbf{x_j}$$ 
 
-Here I am trying to do a graph level prediction, so we need to compile aggregated features from all nodes. Here I am using a simple minimum-mean pooling to concatenate all features.
-
-As mentioned in the paper, I am first calculating the prediction using the primary adjacency matrix . The output of this is x1. Then calculate using secondary adjacency matrix. The output of this is x2.The final output for a node feature is just simply **x2 - x1**. By doing this we let our model learn the differences between the individual structures and the combined complex structure.
+In this project I am trying to do a graph level prediction, so we need to compile features from all nodes so that we can feed that output to a neural network. Here I am using a simple global add pooling to concatenate all features.Other intelligent pooling methods might give better results. 
+As mentioned in the paper, I am first calculating the prediction using the primary adjacency matrix . The output of this is x1. Then calculate using secondary adjacency matrix. The output of this is x2.The final output for a node feature is just simply **x2 - x1**. The aim is to let our model learn the differences between the individual structures and the combined complex structure.
 
 Source code : [src](https://github.com/Gilgamesh60/Binding_affinity_predictor/blob/main/src)
 
-##  Results : 
-
-These are all the results obtained from visualization of dataset and model performance testing:
+## Dataset visualization results : 
 
 ### i) Random protein sample structure :
 ![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/c8967515-8d4e-48b5-9d7d-2882b25ccef1)
@@ -160,8 +157,26 @@ These are all the results obtained from visualization of dataset and model perfo
 ![image](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/623a3ba4-0d96-46d5-92f1-9d8f375aba32)
 
 
+## Model results 
 
+### Results on training data
 
+![training_plot](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/8cebe55e-a566-4a4f-93b3-0fb3930b850b)
 
+### Results on test data 
+
+![test_plot](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/c1632498-b39f-413d-b585-552a05fc3201)
+
+### Confusion matrix for binary classification of complexes
+
+![confusion_matrix](https://github.com/Gilgamesh60/Binding_affinity_predictor/assets/104096164/eac73f87-3d41-4425-b8fc-bd2e9f5485f3)
+
+## Future works :
+
+There is lot I want to do for this project :
+
+i) I want to launch a webapp that can be used to predict binding affinity for any protein-ligand pair.
+ii) I want to expand this repo to other protein-ligand datasets like KIBA,DAVIS and DUD-E.
+iii) One of the main problems here is the fact that the binding affinity is calculated under fixed circumstances. In the PDBBIND dataset, binding affinity is calculated under normal conditions (Solvent=Water, T=293 K, P=101.3 kPa, pH=7.4). But affinity is heavily dependent on the solvent, pH, temperature, dissolved salts, etc. So in order to use this model commercially, it is important to integrate such parameters in the model too. So I plan to look into this problem too.
 
 
