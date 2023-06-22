@@ -106,7 +106,14 @@ Structure of the final protein-ligand interaction graph is  :
  
 **3. Model Architecture :-** 
 
-I am using a graph attention mechanism. This mechanism combines the attention mechanism used in NLP in the graph neural networks. Idea is to amplify the more important features and downgrade the less important features. For eg. In a sentence "Children are playing on the ground", word "ground" should pay more "attention" to the words like "Children" and "playing" than words like "the","on". Similarly in our case we want to give more "attention" to the important protein-ligand intermolecular interactions. The attention mechanism is based on the legendary research paper ["Attention is all you need"](https://arxiv.org/abs/1706.03762). Please check it out if you are interested.
+I am using a graph attention mechanism. This mechanism combines the attention mechanism used in NLP in the graph neural networks. Idea is to amplify the more important features and downgrade the less important features. For eg. In a sentence "Children are playing on the ground", word "ground" should pay more "attention" to the words like "Children" and "playing" than words like "the" and "on". Similarly in our case we want to give more "attention" to the important protein-ligand intermolecular interactions. The attention mechanism is based on the legendary research paper [Attention is all you need](https://arxiv.org/abs/1706.03762). Please check it out if you are interested.
+
+Before starting the explaination on how attention is integrated with GNNs, first I will try to explain the working of gnns in short.I will also try to justify why I have used GNNs for this project. 
+
+Fundamental idea of GNNs is to learn a suitable representation of graph data for neural networks. Given all the information about graphs like node features,node connections stored in adjacency matrix, a GNNs outputs something new called as node embedding for each of the nodes. These node embeddings contain the structural and feature information about the other nodes in the graph. So each node is aware of the context of other nodes in the graph.This is achieved by message passing layers which are the main building blocks of GNNs
+
+In general,the formula for messaging passing can be represented as - 
+
 
 Input: The input of our graph attention model is the set of node features: $\mathbf{X_{\text{in}}} = \{\mathbf{x_1}, \dots, \mathbf{x_N}\}$ with $\mathbf{x_i} \in \mathbb{R}^F$ ($F$ is the number of features, $N$ is the number of nodes) and adjacency matrix **A** which keeps tracks of the edge coordinates. 
 
