@@ -1,1 +1,3 @@
-The PDBBIND dataset is pretty complex to understand. So if you are having troubles understanding the different things in the dataset you can use this file.
+## Visualizations
+
+The PDBBIND dataset is a pretty complex dataset with different type of useful information scattered across various files and folders. This notebook is made as a guide to understand the dataset better.
