@@ -112,27 +112,29 @@ Before starting the explaination on how attention is integrated with GNNs, first
 Fundamental idea of GNNs is to learn a suitable representation of graph data for neural networks. Given all the information about graphs like node features,node connections stored in adjacency matrix, a GNNs outputs something new called as node embedding for each of the nodes. These node embeddings contain the structural and feature information about the other nodes in the graph. So each node is aware of the context of other nodes in the graph.This is achieved by message passing layers which are the main building blocks of GNNs
 
 In general,the formula for messaging passing can be represented as - 
-$$h_u^k+1 = UPDATE^k(h_u^k,AGGREGATE^k({h_v^k,\forall v \in N(u)}))$$
-The AGGREGATE function gathers all the structural and feature data from the other nodes in the graph. Then based on node embeddings and this aggregated information update function simply produces the new node embeddings. As evident by the formula,it is an iterative formula. Based on how you define your AGGREGATE and UPDATE functions, there are many varients of GNNs.
-Now this is where the attention mechanism comes into play.In graph attention networks,importance of the features of the neighbour state is considered for the aggregation. As a result the importance of the features of the neighbour state is used as a factor in AGGREGATE function.
-Before going into how exactly I plan to use this model for my project, I want to briefly go throught the architecture of graph attention networks. If you are interested please go through this [paper](https://arxiv.org/pdf/1710.10903.pdf).
+$$X_u^k+1 = UPDATE^k(X_u^k,AGGREGATE^k({X_v^k,\forall v \in N(u)}))$$
+The AGGREGATE operation uses all the direct neighbours 'v' of node 'u' and aggregates them in a specific way.Then the update operation uses the current node state in time state k and combines it with the aggregated information to create a new embedding for the node u.Based on how you define your AGGREGATE and UPDATE operations, there are many varients of GNNs.
+This is where the attention mechanism comes into play.In graph attention networks,importance of the features of the neighbour nodes is considered for the aggregation. As a result this importance is used as a factor in the AGGREGATE operation.
+Before going into how exactly I plan to use this model for my project, I will briefly go through the architecture of graph attention networks. If you are interested please go through this [paper](https://arxiv.org/pdf/1710.10903.pdf) to learn more about it.
 
-Input: The input of our graph attention model is the set of node features: $\mathbf{X_{\text{in}}} = \{\mathbf{x_1}, \dots, \mathbf{x_N}\}$ with $\mathbf{x_i} \in \mathbb{R}^F$ ($F$ is the number of features, $N$ is the number of nodes) and adjacency matrix **A** which keeps tracks of the edge coordinates. 
+Input: The input of our graph attention network is the set of node features: $\mathbf{X_{\text{in}}} = \{\mathbf{x_1}, \dots, \mathbf{x_N}\}$ with $\mathbf{x_i} \in \mathbb{R}^F$ ($F$ is the number of features, $N$ is the number of nodes) and adjacency matrix **A** which keeps tracks of the node connections. 
 
 The new node embeddings are obtained by multiplying the current node embeddings(initially $X*A*$ where A is node feature matrix and A is the adacency matrix) by a learnable weight matrix $W \in \mathbb{R}^{F \times F}$:  $$\mathbf{x_i} = W\mathbf{x_i}$$
 
-The basic idea is to learn how important node j's features are for node i which is called as attention coefficient($e_{ij}$). 
-In the paper, they have calculated attention coefficient as :  $$e_{ij} = e_{ji} = \mathbf{x}^{T}_i \mathbf{W} \mathbf{x}_j + \mathbf{x}^{T}_j \mathbf{W} \mathbf{x}_i$$
+The basic idea is to learn how important node j's features are for node i and this importance is called as attention coefficient($e_{ij}$). In general it is calculated as :
+$$ e_{ij} = e_{ji}  = a(\mathbf{W}\mathbf{x_i} ,\mathbf{W}\mathbf{x_j})  $$ where a is some kind of attention function.
+In our case,they have defined this function as:  $$e_{ij} = e_{ji} = \mathbf{x}^{T}_i \mathbf{W} \mathbf{x}_j + \mathbf{x}^{T}_j \mathbf{W} \mathbf{x}_i$$
 
-Here $\mathbf{W} \in \mathbb{R}^{F \times F}$ is a learnable matrix. We don't want our attention coefficient to be negate. So we will only compute $e_{ij}$ if $\mathbf{A_{ij}} = \mathbf{A_{ji}} >0 $
+Here $\mathbf{W} \in \mathbb{R}^{F \times F}$ is a learnable matrix. We don't want our attention coefficient to be negative. So we will only compute $e_{ij}$ if $\mathbf{A_{ij}} = \mathbf{A_{ji}} >0 $
 
 Finally as mentioned in the original attention paper I will use a softmax function to normalize the attention coefficients.By doing this,all the coefficients of a node will be transformed in such way that all coefficients will always sum up to 1: 
 $$a_{ij} = \frac{\exp(e_{ij})}{\sum_{j \in N(i)} \exp(e_{ij})} \mathbf{A_{ij}}$$
 
-Aggregation is now complete.Now we just need to update: 
+Aggregation of all the node features is complete.Now we can update the node embeddings: 
 $$\hat{\mathbf{x_i}} = \sum_{j \in N(i)} a_{ij} \mathbf{x_j}$$ 
 
-In this project I am trying to do a graph level prediction, so we need to compile features from all nodes so that we can feed that output to a neural network. Here I am using a simple global add pooling to concatenate all features.Other intelligent pooling methods might give better results. 
+ 
+For this project we need to do graph level predictions, so we need to compile features from all nodes so that we can feed that output to a neural network. Here I am using a simple global add pooling to concatenate all features.Other intelligent pooling methods might give better results. 
 As mentioned in the paper, I am first calculating the prediction using the primary adjacency matrix . The output of this is x1. Then calculate using secondary adjacency matrix. The output of this is x2.The final output for a node feature is just simply **x2 - x1**. The aim is to let our model learn the differences between the individual structures and the combined complex structure.
 
 Link for source code : [Source](https://github.com/Gilgamesh60/Binding_affinity_predictor/blob/main/src)
