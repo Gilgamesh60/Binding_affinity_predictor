@@ -6,6 +6,7 @@ from torch.nn.functional import softmax, sigmoid, relu
 from torch.nn import Parameter, ModuleList, BatchNorm1d
 from torch.optim import Adam
 from torch.optim.lr_scheduler import StepLR
+from torch_geometric.nn import MessagePassing, global_add_pool
 class GAT(torch.nn.Module):
     def __init__(self, in_channels, num_gnn_layers, num_linear_layers, linear_out_channels):
         super(GAT, self).__init__()
@@ -31,9 +32,13 @@ class GAT(torch.nn.Module):
     def forward(self, batched_data):
         x, edge_index_1, edge_index_2, edge_weight = batched_data["x"], batched_data["edge_index_1"], batched_data["edge_index_2"], batched_data["edge_weight"]
 
-        for layer in self.attention_layers:
-            x_1 = layer(x_1, edge_index_1)
-            x_2 = layer(x_2, edge_index_2, edge_weight)
+        for index,layer in enumerate(self.attention_layers):
+          if index == 0:
+                x_1 = layer(x, edge_index_1)
+                x_2 = layer(x, edge_index_2, edge_weight)
+                continue
+          x_1 = layer(x_1, edge_index_1)
+          x_2 = layer(x_2, edge_index_2, edge_weight)
 
         node_representation = x_2 - x_1
         graph_representation = self.pooling_layer(node_representation, batched_data.batch)
