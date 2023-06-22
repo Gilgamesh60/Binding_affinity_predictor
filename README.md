@@ -101,8 +101,6 @@ Structure of the final protein-ligand interaction graph is  :
 
 
 
-
-
  
 **3. Model Architecture :-** 
 
@@ -112,12 +110,16 @@ Before starting the explaination on how attention is integrated with GNNs, first
 
 Fundamental idea of GNNs is to learn a suitable representation of graph data for neural networks. Given all the information about graphs like node features,node connections stored in adjacency matrix, a GNNs outputs something new called as node embedding for each of the nodes. These node embeddings contain the structural and feature information about the other nodes in the graph. So each node is aware of the context of other nodes in the graph.This is achieved by message passing layers which are the main building blocks of GNNs
 
-In general,the formula for messaging passing can be represented as - $\(h_u^k+1) = (UPDATE)^k((h_u^k),(AGGREGATE^k({h_v^k,\forall v \in N(u)})))$
+In general,the formula for messaging passing can be represented as - $\h_u^k+1 = UPDATE^k(h_u^k,AGGREGATE^k({h_v^k,\forall v \in N(u)}))$
+The AGGREGATE function gathers all the structural and feature data from the other nodes in the graph. Then based on node embeddings and this aggregated information update function simply produces the new node embeddings. As evident by the formula,it is an iterative formula. Based on how you define your AGGREGATE and UPDATE functions, there are many varients of GNNs.
+Now this is where the attention mechanism comes into play.In graph attention networks,importance of the features of the neighbour state is considered for the aggregation. As a result the importance of the features of the neighbour state is used as a factor in AGGREGATE function.
+Before going into how exactly I plan to use this model for my project, I want to briefly go throught the architecture of graph attention networks. If you are interested please go through this [paper](https://arxiv.org/pdf/1710.10903.pdf).
 
 Input: The input of our graph attention model is the set of node features: $\mathbf{X_{\text{in}}} = \{\mathbf{x_1}, \dots, \mathbf{x_N}\}$ with $\mathbf{x_i} \in \mathbb{R}^F$ ($F$ is the number of features, $N$ is the number of nodes) and adjacency matrix **A** which keeps tracks of the edge coordinates. 
 
-Each node feature is transformed by using a learable weight matrix $W \in \mathbb{R}^{F \times F}$:  $$\mathbf{x_i} = W\mathbf{x_i}$$
+The new node embeddings are obtained by multiplying the current node embeddings(initially that will be $X*A*$ where A is node feature matrix and A is the adacency matrix) by a    learable weight matrix $W \in \mathbb{R}^{F \times F}$:  $$\mathbf{x_i} = W\mathbf{x_i}$$
 
+The basic idea is to learn how important node j's features are for node i. This is called as attention coefficient($e_{ij}$). 
 Compute attention coefficient (the importand of $i^{th}$ node feature to $j^{th}$ node feature):  $$e_{ij} = e_{ji} = \mathbf{x}^{T}_i \mathbf{E} \mathbf{x}_j + \mathbf{x}^{T}_j \mathbf{E} \mathbf{x}_i$$
 
 with $\mathbf{E} \in \mathbb{R}^{F \times F}$ is a learnable matrix, only compute $e_{ij}$ if $\mathbf{A_{ij}} = \mathbf{A_{ji}} >0 $
