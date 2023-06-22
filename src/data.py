@@ -30,16 +30,8 @@ class protein_ligand_dataset(InMemoryDataset):
             
             # ligand structure in sdf file
             ligand_file_path = os.path.join(self.data_dir, complex_folder_name, "{}_ligand.sdf".format(complex_id))
-            ligand = next(SDMolSupplier(ligand_file_path, sanitize = False))
-            if ligand is None:
-              continue
-      
             # protein structure in pdb file
-            protein_file_path = os.path.join(self.data_dir, complex_folder_name, "{}_protein.pdb".format(complex_id))
-            protein = MolFromPDBFile(protein_structure_file_path, sanitize = False)
-            if protein is None:
-                continue
-                
+            protein_file_path = os.path.join(self.data_dir, complex_folder_name, "{}_protein.pdb".format(complex_id))        
             graph = interactions_graph(ligand_structure_file_path, protein_structure_file_path)
             binding_affinity = map_complex_to_affinity[pdb_id]
             data = Data()
