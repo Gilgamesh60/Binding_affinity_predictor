@@ -53,15 +53,21 @@ def structure_to_graph(structure):
 
 #This function is used to calculate covalent interactions
 def interactions_graph(ligand_file, protein_file):
-    
+    ligand = next(SDMolSupplier(ligand_file_path, sanitize = False))
+    if ligand is None:
+        return None
+    protein = MolFromPDBFile(protein_structure_file_path, sanitize = False)
+    if protein is None:
+        return None
+    ligand_graph = structure_to_graph(ligand)
+    protein_graph = structure_to_graph(protein)
     node_features = np.concatenate([ligand_graph["node_feat"], protein_graph["node_feat"]], axis = 0)
     num_nodes = ligand_graph["num_nodes"] + protein_graph["num_nodes"]
-    
     intermolecular_bonds, weight = [], []
-    for ligand_atom_id in range(ligand_graph["num_nodes"]):
-        for protein_atom_id in range(protein_graph["num_nodes"]):
-            ligand_atom_pos = ligand_graph["node_positions"][ligand_atom_id]
-            protein_atom_pos = protein_graph["node_positions"][protein_atom_id]
+    for latm_id in range(ligand_graph["num_nodes"]):
+        for patm_id in range(protein_graph["num_nodes"]):
+            ligand_atom_pos = ligand_graph["node_positions"][latm_id]
+            protein_atom_pos = protein_graph["node_positions"][patm_id]
             distance = sum((ligand_atom_pos - protein_atom_pos) ** 2)
             if distance < 5:
                 intermolecular_bonds.append((ligand_atom_id, protein_atom_id + ligand_graph["num_nodes"]))
