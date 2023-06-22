@@ -1,8 +1,12 @@
 class Config:
-    root = "/content/drive/MyDrive/refined_affinity/"
-    data_dir = "/content/drive/MyDrive/refined_affinity/refined-set"
+    root = "/content/drive/MyDrive/exp1/"
+    data_dir = "/content/drive/MyDrive/exp1/refined-set"
     affinity_file = "/content/drive/MyDrive/binding_affinity_project/general-set-except-refined/index/INDEX_refined_data.2016"
-    batch_size = 64
+    val_split = 0.3
+    test_split = 0.5
+    train_batch_size = 16
+    val_batch_size = 8
+    test_batch_size = 8
     learning_rate = 0.06
     use_scheduler = False
     step_size = 5
@@ -12,6 +16,6 @@ class Config:
     num_linear_layers = 1
     linear_out_channels = [5, 5]
     device = "cpu"
-    num_epochs = 20
+    num_epochs = 15
     early_stop = True
     patience = 5
