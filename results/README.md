@@ -1,2 +1,2 @@
 ## Results 
-Compilation of all the results I obtained through this project
+Compilation of all the results I have obtained from this project.
